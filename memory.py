@@ -4,16 +4,20 @@ import uuid
 
 FILE_PATH = "storage/convos.json"
 
-
 def load_data():
     if not os.path.exists(FILE_PATH):
-        return {}
+        return {"sessions": {}}
     with open(FILE_PATH, "r") as f:
         print("Loading data from storage...")
         try:
-            return json.load(f)
+            data = json.load(f)
         except json.JSONDecodeError:
-            return {}
+            return {"sessions": {}}
+
+    if "sessions" not in data or not isinstance(data["sessions"], dict):
+        data["sessions"] = {}
+
+    return data
 
 
 def save_data(data):
@@ -22,14 +26,35 @@ def save_data(data):
         json.dump(data, f, indent=2)
 
 
-def create_session():
-    return str(uuid.uuid4())
-
+def create_session(data):
+    session_id = str(uuid.uuid4())
+    data.setdefault("sessions", {})[session_id] = {
+        "title": "New Chat",
+        "messages": [
+            {"role": "system", "content": "You're a helpful assistant."}
+        ]
+    }
+    save_data(data)
+    return session_id
 
 def get_session(data, session_id):
-    return data.get(session_id, [])
+    return data["sessions"].get(session_id)
 
+def list_sessions(data):
+    return [
+        {
+            "session_id": sid,
+            "title": info.get("title", "Untitled")
+        }
+        for sid, info in data.get("sessions", {}).items()
+    ]
 
 def update_session(data, session_id, messages):
-    data[session_id] = messages
+    data.setdefault("sessions", {})
+    if session_id not in data["sessions"]:
+        data["sessions"][session_id] = {
+            "title": "Chat",
+            "messages": []
+        }
+    data["sessions"][session_id]["messages"] = messages
     save_data(data)

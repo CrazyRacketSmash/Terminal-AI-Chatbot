@@ -1,14 +1,7 @@
 import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
 
-function ChatWindow() {
-  const messages = [
-    {
-      role: "assistant",
-      content: "Hello! How can I help?"
-    }
-  ];
-
+function ChatWindow({ messages, setMessages, sessionId, setSessionId }) {
   return (
     <div className="flex flex-col flex-1">
       
@@ -18,7 +11,12 @@ function ChatWindow() {
         ))}
       </div>
 
-      <ChatInput />
+      <ChatInput 
+        messages={messages}
+        setMessages={setMessages}
+        sessionId={sessionId}
+        setSessionId={setSessionId}
+      />
     </div>
   );
 }

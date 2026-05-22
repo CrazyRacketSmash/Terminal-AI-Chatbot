@@ -48,13 +48,3 @@ def list_sessions(data):
         }
         for sid, info in data.get("sessions", {}).items()
     ]
-
-def update_session(data, session_id, messages):
-    data.setdefault("sessions", {})
-    if session_id not in data["sessions"]:
-        data["sessions"][session_id] = {
-            "title": "Chat",
-            "messages": []
-        }
-    data["sessions"][session_id]["messages"] = messages
-    save_data(data)

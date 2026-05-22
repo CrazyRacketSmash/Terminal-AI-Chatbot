@@ -3,8 +3,11 @@ import json
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
 
+# =========================
+# STREAMING RESPONSE
+# =========================
+def stream_llm(messages, model="llama3"):
 
-def ask_llm(messages, model="llama3"):
     response = requests.post(
         OLLAMA_URL,
         json={
@@ -15,25 +18,19 @@ def ask_llm(messages, model="llama3"):
         stream=True
     )
 
-    raw = response.text.strip()
+    for line in response.iter_lines():
 
-    try:
-        # normal case
-        data = json.loads(raw)
-        return data["message"]["content"]
+        if not line:
+            continue
 
-    except json.JSONDecodeError:
-        # fallback: Ollama sometimes returns multiple JSON objects
-        lines = raw.split("\n")
-        last_valid = None
+        try:
+            decoded = line.decode("utf-8")
+            data = json.loads(decoded)
 
-        for line in lines:
-            try:
-                last_valid = json.loads(line)
-            except:
-                continue
+            token = data.get("message", {}).get("content", "")
 
-        if last_valid:
-            return last_valid.get("message", {}).get("content", "")
+            if token:
+                yield token
 
-        raise Exception("Failed to parse Ollama response")
+        except json.JSONDecodeError:
+            continue

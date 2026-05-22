@@ -54,5 +54,87 @@
       "role": "assistant",
       "content": ""
     }
-  ]
+  ],
+  "sessions": {
+    "27b80313-4cd4-4dbb-a960-e05033562ef8": {
+      "title": "New Chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You're a helpful assistant."
+        }
+      ]
+    },
+    "480310d1-2367-42f9-b5e0-0e932607ec7d": {
+      "title": "New Chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You're a helpful assistant."
+        }
+      ]
+    },
+    "41f2a6c6-e10d-4db6-8e4d-d1d5a21eb30d": {
+      "title": "New Chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You're a helpful assistant."
+        }
+      ]
+    },
+    "2fd96bf8-f866-4e1b-9768-0888329af32d": {
+      "title": "New Chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You're a helpful assistant."
+        },
+        {
+          "role": "user",
+          "content": "Hello, how are you?"
+        },
+        {
+          "role": "assistant",
+          "content": "Hi! I'm doing great, thanks for asking! I'm here to help you with any questions or problems you might have. What's on your mind today? Do you need assistance with something specific, or just want to chat?"
+        }
+      ]
+    },
+    "9356848f-3ddb-4780-8f3d-80bbc382a12d": {
+      "title": "New Chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You're a helpful assistant."
+        }
+      ]
+    },
+    "ec34fb61-0361-4595-b550-84d74abd6e31": {
+      "title": "New Chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You're a helpful assistant."
+        }
+      ]
+    },
+    "5bf63337-29ee-4c2b-8c90-cb7a7a91e20e": {
+      "title": "New Chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You're a helpful assistant."
+        }
+      ]
+    },
+    "a47bf0b2-b34d-48a8-9fce-f2649afc9661": {
+      "title": "New Chat",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You're a helpful assistant."
+        }
+      ]
+    }
+  }
 }

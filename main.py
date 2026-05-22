@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import uuid
 from memory import (
     load_data,
     save_data,
     create_session,
     get_session,
-    update_session
+    list_sessions
 )
-from llm import ask_llm
+from fastapi.responses import StreamingResponse
+from llm import stream_llm
 
 # Logics
 app = FastAPI()
@@ -19,43 +19,60 @@ class ChatRequest(BaseModel):
     session_id: str | None = None
     message: str
 
+# Home Endpoint
 @app.get("/")
 def home():
     return {"message": "AI Chatbot API is running!"}
-# Send chat Endpoint
+
+# List Sessions Endpoint
+@app.get("/sessions")
+def sessions():
+    return list_sessions(db)
+
+# New Session Endpoint
+@app.post("/sessions/new")
+def new_session():
+    session_id = create_session(db)
+    return {"session_id": session_id}
+
+# Send stream chat Endpoint
 @app.post("/chat")
-def chat(req: ChatRequest):
-    global db
+def chat_stream(req: ChatRequest):
 
-    # Create session if missing
     if not req.session_id:
-        req.session_id = create_session()
-        db[req.session_id] = [
-            {"role": "system", "content": "You're a helpful assistant."}
-        ]
+        req.session_id = create_session(db)
 
-    # Get history
-    messages = get_session(db, req.session_id)
+    session = get_session(db, req.session_id)
 
-    # Add user message
+    messages = session["messages"]
+
     messages.append({
         "role": "user",
         "content": req.message
     })
 
-    # Call LLM
-    reply = ask_llm(messages)
+    def generate():
 
-    # Save assistant response
-    messages.append({
-        "role": "assistant",
-        "content": reply
-    })
+        full_response = ""
 
-    update_session(db, req.session_id, messages)
+        for token in stream_llm(messages):
 
-    return {
-        "session_id": req.session_id,
-        "response": reply,
-        "history": messages
-    }
+            full_response += token
+
+            # yield token as SSE format(JSON)
+            yield f'data: {token}\n\n'
+
+        # save assistant response after streaming ends
+        messages.append({
+            "role": "assistant",
+            "content": full_response
+        })
+
+        save_data(db)
+
+        yield "data: [DONE]\n\n"
+
+    return StreamingResponse(
+        generate(),
+        media_type="text/event-stream"
+    )

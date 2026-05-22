@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { sendMessage } from "../services/api";
+import { streamMessage } from "../services/api";
 
 function ChatInput({ messages, setMessages, sessionId, setSessionId }) {
   const [input, setInput] = useState("");
@@ -13,22 +13,42 @@ function ChatInput({ messages, setMessages, sessionId, setSessionId }) {
       content: input,
     };
 
-    const updatedMessages = [...messages, userMessage]; // Add user message to the chat history before sending to the server
-    setMessages(updatedMessages);
+    setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
+
     setInput("");
     setLoading(true);
 
-    const data = await sendMessage(input, sessionId);
+    // create EMPTY assistant message
+    let assistantMessage = {
+      role: "assistant",
+      content: "",
+    };
 
-    setSessionId(data.session_id);
+    // immediately render assistant bubble
+    setMessages((prev) => [...prev, assistantMessage]);
 
-    setMessages([
-      ...updatedMessages,
-      {
-        role: "assistant",
-        content: data.response,
-      },
-    ]);
+    await streamMessage(
+      currentInput,
+      sessionId,
+
+      (token) => {
+
+        assistantMessage.content += token;
+
+        // force rerender
+        setMessages((prev) => {
+
+          const updated = [...prev];
+
+          updated[updated.length - 1] = {
+            ...assistantMessage
+          };
+
+          return updated;
+        });
+      }
+    );
 
     setLoading(false);
   };

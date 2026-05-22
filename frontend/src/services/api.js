@@ -1,6 +1,8 @@
 const API_URL = "http://127.0.0.1:8000"; //FASTAPI URL
 
-export async function sendMessage(message, session_id = null) {
+// sendMessage supports streaming tokens via `onToken(token)` callback.
+// Returns a promise that resolves with the full response and session_id.
+export async function streamMessage(message, session_id = null, onToken = null) {
   const res = await fetch(`${API_URL}/chat`, {
     method: "POST",
     headers: {
@@ -12,23 +14,68 @@ export async function sendMessage(message, session_id = null) {
     }),
   });
 
-  // Read the stream and parse SSE format
+  // If backend didn't return a streaming body, fall back to JSON
+  if (!res.body) {
+    const json = await res.json();
+    return {
+      response: json.response ?? "",
+      session_id: json.session_id ?? session_id,
+    };
+  }
+
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
+  let buffer = "";
   let fullResponse = "";
 
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
 
-    const chunk = decoder.decode(value);
-    const lines = chunk.split("\n");
+    buffer += decoder.decode(value, { stream: true });
 
+    // SSE events are separated by a blank line
+    const events = buffer.split("\n\n");
+    buffer = events.pop(); // last chunk may be incomplete
+
+    for (const event of events) {
+      const lines = event.split("\n").map((l) => l.trim()).filter(Boolean);
+      for (const line of lines) {
+        if (line.startsWith("data:")) {
+          const dataStr = line.slice(5).trim();
+          try {
+            const obj = JSON.parse(dataStr);
+            if (obj.token) {
+              fullResponse += obj.token;
+              if (onToken) onToken(obj.token);
+            } else if (obj.done) {
+              // stream finished marker
+            }
+          } catch (e) {
+            // not JSON — treat as raw text
+            fullResponse += dataStr;
+            if (onToken) onToken(dataStr);
+          }
+        }
+      }
+    }
+  }
+
+  // Process any remaining buffered event
+  if (buffer) {
+    const lines = buffer.split("\n").map((l) => l.trim()).filter(Boolean);
     for (const line of lines) {
-      if (line.startsWith("data: ")) {
-        const data = line.slice(6); // Remove "data: " prefix
-        if (data !== "[DONE]") {
-          fullResponse += data;
+      if (line.startsWith("data:")) {
+        const dataStr = line.slice(5).trim();
+        try {
+          const obj = JSON.parse(dataStr);
+          if (obj.token) {
+            fullResponse += obj.token;
+            if (onToken) onToken(obj.token);
+          }
+        } catch (e) {
+          fullResponse += dataStr;
+          if (onToken) onToken(dataStr);
         }
       }
     }
@@ -36,6 +83,6 @@ export async function sendMessage(message, session_id = null) {
 
   return {
     response: fullResponse,
-    session_id: session_id,
+    session_id,
   };
 }

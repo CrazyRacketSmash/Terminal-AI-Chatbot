@@ -10,6 +10,7 @@ from memory import (
 )
 from fastapi.responses import StreamingResponse
 from llm import stream_llm
+import json
 
 # Logics
 app = FastAPI()
@@ -70,7 +71,7 @@ def chat_stream(req: ChatRequest):
             full_response += token
 
             # yield token as SSE format(JSON)
-            yield f'data: {token}\n\n'
+            yield f"data: {json.dumps({'token': token})}\n\n"
 
         # save assistant response after streaming ends
         messages.append({
@@ -80,7 +81,7 @@ def chat_stream(req: ChatRequest):
 
         save_data(db)
 
-        yield "data: [DONE]\n\n"
+        yield f"data: {json.dumps({'done': True})}\n\n"
 
     return StreamingResponse(
         generate(),

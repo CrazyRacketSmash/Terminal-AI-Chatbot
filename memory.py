@@ -48,3 +48,18 @@ def list_sessions(data):
         }
         for sid, info in data.get("sessions", {}).items()
     ]
+
+def delete_session(data, session_id):
+    if session_id in data.get("sessions", {}):
+        del data["sessions"][session_id]
+        save_data(data)
+        return True
+    return False
+
+def update_session_title(data, session_id, title):
+    session = get_session(data, session_id)
+    if session:
+        session["title"] = title
+        save_data(data)
+        return True
+    return False

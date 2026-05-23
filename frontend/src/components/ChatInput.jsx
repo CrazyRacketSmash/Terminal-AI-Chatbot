@@ -28,7 +28,7 @@ function ChatInput({ messages, setMessages, sessionId, setSessionId }) {
     // immediately render assistant bubble
     setMessages((prev) => [...prev, assistantMessage]);
 
-    await streamMessage(
+    const result = await streamMessage(
       currentInput,
       sessionId,
 
@@ -49,6 +49,11 @@ function ChatInput({ messages, setMessages, sessionId, setSessionId }) {
         });
       }
     );
+
+    // Update sessionId if it was created on this message
+    if (result.session_id && !sessionId) {
+      setSessionId(result.session_id);
+    }
 
     setLoading(false);
   };

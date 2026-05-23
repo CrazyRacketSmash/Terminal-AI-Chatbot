@@ -1,169 +1,7 @@
 {
-  "ec71f0f2-af2b-45b6-8850-e549b7f55f31": [
-    {
-      "role": "system",
-      "content": "You're a helpful assistant."
-    },
-    {
-      "role": "user",
-      "content": "string"
-    },
-    {
-      "role": "assistant",
-      "content": ""
-    }
-  ],
-  "ff337abf-a7f0-49eb-9ac4-29dd7fd7b97a": [
-    {
-      "role": "system",
-      "content": "You're a helpful assistant."
-    },
-    {
-      "role": "user",
-      "content": "string"
-    },
-    {
-      "role": "assistant",
-      "content": ""
-    }
-  ],
-  "0b1eb342-66e0-42f7-89c0-14add21d0ead": [
-    {
-      "role": "system",
-      "content": "You're a helpful assistant."
-    },
-    {
-      "role": "user",
-      "content": "string"
-    },
-    {
-      "role": "assistant",
-      "content": ""
-    }
-  ],
-  "ac6da895-41ff-4807-9c93-4f7aa1a387db": [
-    {
-      "role": "system",
-      "content": "You're a helpful assistant."
-    },
-    {
-      "role": "user",
-      "content": "wassupppp"
-    },
-    {
-      "role": "assistant",
-      "content": ""
-    }
-  ],
   "sessions": {
-    "27b80313-4cd4-4dbb-a960-e05033562ef8": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        }
-      ]
-    },
-    "480310d1-2367-42f9-b5e0-0e932607ec7d": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        }
-      ]
-    },
-    "41f2a6c6-e10d-4db6-8e4d-d1d5a21eb30d": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        }
-      ]
-    },
-    "2fd96bf8-f866-4e1b-9768-0888329af32d": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        },
-        {
-          "role": "user",
-          "content": "Hello, how are you?"
-        },
-        {
-          "role": "assistant",
-          "content": "Hi! I'm doing great, thanks for asking! I'm here to help you with any questions or problems you might have. What's on your mind today? Do you need assistance with something specific, or just want to chat?"
-        }
-      ]
-    },
-    "9356848f-3ddb-4780-8f3d-80bbc382a12d": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        }
-      ]
-    },
-    "ec34fb61-0361-4595-b550-84d74abd6e31": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        }
-      ]
-    },
-    "5bf63337-29ee-4c2b-8c90-cb7a7a91e20e": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        }
-      ]
-    },
-    "a47bf0b2-b34d-48a8-9fce-f2649afc9661": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        }
-      ]
-    },
-    "0e0289d4-3f62-4453-8ec4-744c3b2c0a34": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        }
-      ]
-    },
-    "d213dc52-ff00-403c-982d-1fcf24c57cd8": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        },
-        {
-          "role": "user",
-          "content": "Hello"
-        },
-        {
-          "role": "assistant",
-          "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat?"
-        }
-      ]
-    },
-    "009484ff-f961-4ba8-b620-c763455ab04c": {
-      "title": "New Chat",
+    "aae470f8-e4cd-49d3-a5d8-056bee402aa0": {
+      "title": "Hello there!",
       "messages": [
         {
           "role": "system",
@@ -175,12 +13,12 @@
         },
         {
           "role": "assistant",
-          "content": "Hello! It's nice to meet you. How can I help you today? Do you have any questions, need some advice or just want to chat? I'm here to assist you in any way I can."
+          "content": "Hi! It's nice to meet you. How can I help you today? Do you have a question, need some advice or just want to chat about something on your mind? I'm all ears and ready to assist!"
         }
       ]
     },
-    "46f1994a-568a-4bfc-aaa6-24e028c4d1e0": {
-      "title": "New Chat",
+    "9b7e221d-447e-4771-96c2-2859d3ed9895": {
+      "title": "Hi so I want your thoughts on should we go to hock...",
       "messages": [
         {
           "role": "system",
@@ -188,75 +26,20 @@
         },
         {
           "role": "user",
-          "content": "Nice to meet you!! My name is Leo! what's your name and what can you do? Are you similar to ChatGPT?"
+          "content": "Hi so I want your thoughts on should we go to hocking Hills statepark during June or May"
         },
         {
           "role": "assistant",
-          "content": "Nice to meet you too, Leo! I'm an AI assistant designed to help with various tasks and answer questions on a wide range of topics. My primary function is to assist users like you with information and tasks, making your life easier and more efficient.\n\nSimilarities with ChatGPT:\n\n1. Both are AI-powered language models.\n2. We're trained on vast amounts of text data to generate human-like responses.\n3. We can understand and respond to natural language inputs (e.g., sentences, paragraphs).\n4. Our primary goal is to provide helpful and accurate information.\n\nHowever, there are some key differences:\n\n1. ChatGPT is a more advanced AI model with capabilities like generative writing, creative content generation, and even humor detection.\n2. I'm designed to be more practical and task-oriented, focusing on providing quick answers, guidance, and assistance for everyday tasks.\n3. While ChatGPT can generate longer responses (even full-length articles), my replies are generally shorter and more concise.\n\nSo, what brings you here today? Do you have a specific question or topic you'd like to discuss? I'm all ears (or rather, all text)!"
+          "content": "Hocking Hills State Park is a beautiful destination! Both May and June can be great times to visit, but there are some factors to consider that might help you decide.\n\n**May:**\n\n* Pros:\n\t+ Wildflowers will likely be in bloom, adding color and beauty to the trails.\n\t+ The weather is usually mild, with temperatures ranging from 50\u00b0F to 70\u00b0F (10\u00b0C to 21\u00b0C).\n\t+ It's considered the shoulder season, so you'll likely encounter fewer crowds than during peak summer months.\n* Cons:\n\t+ Some waterfalls might be slower or dry due to spring runoff having ended.\n\t+ Trail conditions can be a bit rougher than in June, as some areas may still be recovering from winter weather.\n\n**June:**\n\n* Pros:\n\t+ Waterfalls will likely be at their peak flow rate, making for stunning views and photography opportunities.\n\t+ The weather is usually warm and sunny, with temperatures ranging from 60\u00b0F to 80\u00b0F (16\u00b0C to 27\u00b0C).\n\t+ Wildflowers might still be blooming, depending on the specific species and weather conditions.\n* Cons:\n\t+ Summer crowds can arrive in June, so you might encounter more people on the trails.\n\t+ Heat and humidity can make hiking more challenging.\n\nUltimately, the decision comes down to your personal preferences and what you're looking for in a visit. If you prefer milder weather and don't mind potentially rougher trail conditions, May might be a great choice. If you prioritize seeing waterfalls at their peak flow rate and are okay with larger crowds, June could be the way to go.\n\nKeep in mind that Hocking Hills can be quite popular during peak season (June-August), so it's always a good idea to plan ahead, including booking accommodations and reservations for activities, if needed."
         }
       ]
     },
-    "2608d01d-0a25-4f5b-8868-5256d4f0832a": {
+    "a928e6d3-8bf6-4c07-a791-2c8e176005cc": {
       "title": "New Chat",
       "messages": [
         {
           "role": "system",
           "content": "You're a helpful assistant."
-        },
-        {
-          "role": "user",
-          "content": "What's up?"
-        },
-        {
-          "role": "assistant",
-          "content": "Not much! I'm here to help with any questions or tasks you might have. How about you? Is there something on your mind that you'd like some assistance with?"
-        }
-      ]
-    },
-    "f7cbeb50-e483-4ce9-a19c-29adea9f5d48": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        },
-        {
-          "role": "user",
-          "content": "Hi"
-        },
-        {
-          "role": "assistant",
-          "content": "Hello! It's nice to meet you. Is there something I can help you with, or would you like to chat? I'm here to listen and assist with any questions or topics you'd like to discuss."
-        }
-      ]
-    },
-    "91e31f07-a211-4aa6-b9a8-4c16a7f2e11b": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        },
-        {
-          "role": "user",
-          "content": "Hey I recently just graduated from University of Cincinnati. You got any tips for finding jobs?"
-        }
-      ]
-    },
-    "040467fa-cc60-45fc-b054-dcb04ea38d4c": {
-      "title": "New Chat",
-      "messages": [
-        {
-          "role": "system",
-          "content": "You're a helpful assistant."
-        },
-        {
-          "role": "user",
-          "content": "Hey I recently just graduated from University of Cincinnati. You got any tips for finding jobs?"
-        },
-        {
-          "role": "assistant",
-          "content": "Congratulations on your graduation! The University of Cincinnati is a great institution, and you should be proud of yourself for achieving this milestone.\n\nNow, let's get to the job search process! As a helpful assistant, I'd be happy to provide some tips to increase your chances of landing a job. Here are a few:\n\n1. **Update your online presence**: Make sure your LinkedIn profile is professional and up-to-date. This will help recruiters and hiring managers find you when searching for candidates.\n2. **Tailor your resume and cover letter**: Customize your application materials to match the requirements listed in the job posting. Highlight your relevant skills, experiences, and achievements.\n3. **Network and make connections**: Reach out to professors, classmates, and industry professionals who might be able to provide guidance or introduce you to potential employers. Attend networking events, job fairs, and online webinars to expand your network.\n4. **Utilize job boards and career platforms**: In addition to traditional job boards like Indeed, Glassdoor, and LinkedIn Jobs, explore niche-specific platforms that cater to your industry or field of interest (e.g., AngelList for startup jobs).\n5. **Prepare for interviews**: Research common interview questions related to your major or field, practice answering behavioral questions using the STAR method, and prepare thoughtful questions to ask the interviewer.\n6. **Consider internships or part-time work**: If you're having trouble finding a full-time job, consider taking on an internship or part-time role to gain experience and build your professional portfolio.\n7. **Stay positive and persistent**: Job hunting can be a long and challenging process, but it's essential to stay motivated and open-minded. Don't get discouraged by rejections \u2013 use them as opportunities to learn and improve for future applications.\n\nAdditionally, you might want to explore the University of Cincinnati's Career Services resources, such as:\n\n* The Bearcat Career Hub: A platform that provides job search guidance, resume review, and interview preparation.\n* The UC Alumni Association: A network that connects UC alumni and offers career development opportunities.\n* The Cincinnati USA Chamber of Commerce: A organization that provides job listings, industry insights, and professional networking opportunities.\n\nRemember, finding a job takes time and effort. Stay focused, persistent, and positive, and you'll increase your chances of landing a job that aligns with your skills, interests, and career goals.\n\nDo you have any specific questions or concerns about the job search process? I'm here to help!"
         }
       ]
     }

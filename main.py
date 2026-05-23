@@ -6,7 +6,9 @@ from memory import (
     save_data,
     create_session,
     get_session,
-    list_sessions
+    list_sessions,
+    delete_session,
+    update_session_title
 )
 from fastapi.responses import StreamingResponse
 from llm import stream_llm
@@ -40,11 +42,33 @@ def home():
 def sessions():
     return list_sessions(db)
 
+# Get Session Messages Endpoint
+@app.get("/sessions/{session_id}")
+def get_session_messages(session_id: str):
+
+    session = get_session(db, session_id)
+
+    if not session:
+        return {"messages": []}
+
+    # Filter out system messages from display
+    user_messages = [m for m in session["messages"] if m["role"] != "system"]
+
+    return {
+        "messages": user_messages
+    }
+
 # New Session Endpoint
 @app.post("/sessions/new")
 def new_session():
     session_id = create_session(db)
     return {"session_id": session_id}
+
+# Delete Session Endpoint
+@app.delete("/sessions/{session_id}")
+def delete_session_endpoint(session_id: str):
+    success = delete_session(db, session_id)
+    return {"success": success}
 
 # Send stream chat Endpoint
 @app.post("/chat")
@@ -79,9 +103,21 @@ def chat_stream(req: ChatRequest):
             "content": full_response
         })
 
+        # Auto-generate title from first user message if still "New Chat"
+        session = get_session(db, req.session_id)
+        if session and session["title"] == "New Chat" and len(messages) > 1:
+            # Find first user message (skip system message)
+            first_user_msg = next((m["content"] for m in messages if m["role"] == "user"), None)
+            if first_user_msg:
+                # Generate title from first message (first 50 chars)
+                title = first_user_msg[:50]
+                if len(first_user_msg) > 50:
+                    title += "..."
+                update_session_title(db, req.session_id, title)
+
         save_data(db)
 
-        yield f"data: {json.dumps({'done': True})}\n\n"
+        yield f"data: {json.dumps({'done': True, 'session_id': req.session_id})}\n\n"
 
     return StreamingResponse(
         generate(),

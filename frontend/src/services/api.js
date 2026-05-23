@@ -86,3 +86,33 @@ export async function streamMessage(message, session_id = null, onToken = null) 
     session_id,
   };
 }
+
+export async function getSessions() {
+  const res = await fetch(`${API_URL}/sessions`);
+  return res.json();
+}
+
+
+export async function createSession() {
+  const res = await fetch(`${API_URL}/sessions/new`, {
+    method: "POST"
+  });
+  return res.json();
+}
+
+export async function getSessionMessages(sessionId) {
+
+  const res = await fetch(
+    `${API_URL}/sessions/${sessionId}`
+  );
+
+  return res.json();
+}
+
+export async function deleteSession(sessionId) {
+  const res = await fetch(
+    `${API_URL}/sessions/${sessionId}`,
+    { method: "DELETE" }
+  );
+  return res.json();
+}

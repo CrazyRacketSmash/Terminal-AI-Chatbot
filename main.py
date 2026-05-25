@@ -2,19 +2,20 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from memory import (
-    load_data,
-    save_data,
     create_session,
     get_session,
     list_sessions,
     delete_session,
-    update_session_title
+    update_session_title,
+    save_message
 )
 from fastapi.responses import StreamingResponse
 from llm import stream_llm
+from database import init_db
 import json
 
 # Logics
+init_db()
 app = FastAPI()
 
 # Add CORS middleware
@@ -25,7 +26,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-db = load_data()
 
 # Request Models
 class ChatRequest(BaseModel):
@@ -40,13 +40,13 @@ def home():
 # List Sessions Endpoint
 @app.get("/sessions")
 def sessions():
-    return list_sessions(db)
+    return list_sessions()
 
 # Get Session Messages Endpoint
 @app.get("/sessions/{session_id}")
 def get_session_messages(session_id: str):
 
-    session = get_session(db, session_id)
+    session = get_session(session_id)
 
     if not session:
         return {"messages": []}
@@ -61,13 +61,13 @@ def get_session_messages(session_id: str):
 # New Session Endpoint
 @app.post("/sessions/new")
 def new_session():
-    session_id = create_session(db)
+    session_id = create_session()
     return {"session_id": session_id}
 
 # Delete Session Endpoint
 @app.delete("/sessions/{session_id}")
 def delete_session_endpoint(session_id: str):
-    success = delete_session(db, session_id)
+    success = delete_session(session_id)
     return {"success": success}
 
 # Send stream chat Endpoint
@@ -75,16 +75,24 @@ def delete_session_endpoint(session_id: str):
 def chat_stream(req: ChatRequest):
 
     if not req.session_id:
-        req.session_id = create_session(db)
+        req.session_id = create_session()
 
-    session = get_session(db, req.session_id)
+    session = get_session(req.session_id)
+    if not session:
+        session = {
+            "session_id": req.session_id,
+            "title": "New Chat",
+            "messages": [
+                {"role": "system", "content": "You're a helpful assistant."}
+            ]
+        }
 
-    messages = session["messages"]
+    save_message(req.session_id, "user", req.message)
 
-    messages.append({
+    messages = session["messages"] + [{
         "role": "user",
         "content": req.message
-    })
+    }]
 
     def generate():
 
@@ -97,25 +105,17 @@ def chat_stream(req: ChatRequest):
             # yield token as SSE format(JSON)
             yield f"data: {json.dumps({'token': token})}\n\n"
 
-        # save assistant response after streaming ends
-        messages.append({
-            "role": "assistant",
-            "content": full_response
-        })
+        save_message(req.session_id, "assistant", full_response)
 
         # Auto-generate title from first user message if still "New Chat"
-        session = get_session(db, req.session_id)
+        session = get_session(req.session_id)
         if session and session["title"] == "New Chat" and len(messages) > 1:
-            # Find first user message (skip system message)
             first_user_msg = next((m["content"] for m in messages if m["role"] == "user"), None)
             if first_user_msg:
-                # Generate title from first message (first 50 chars)
                 title = first_user_msg[:50]
                 if len(first_user_msg) > 50:
                     title += "..."
-                update_session_title(db, req.session_id, title)
-
-        save_data(db)
+                update_session_title(req.session_id, title)
 
         yield f"data: {json.dumps({'done': True, 'session_id': req.session_id})}\n\n"
 

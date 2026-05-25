@@ -1,65 +1,128 @@
-import json
-import os
 import uuid
 
-FILE_PATH = "storage/convos.json"
-
-def load_data():
-    if not os.path.exists(FILE_PATH):
-        return {"sessions": {}}
-    with open(FILE_PATH, "r") as f:
-        print("Loading data from storage...")
-        try:
-            data = json.load(f)
-        except json.JSONDecodeError:
-            return {"sessions": {}}
-
-    if "sessions" not in data or not isinstance(data["sessions"], dict):
-        data["sessions"] = {}
-
-    return data
+from database import get_connection
 
 
-def save_data(data):
-    os.makedirs("storage", exist_ok=True)
-    with open(FILE_PATH, "w") as f:
-        json.dump(data, f, indent=2)
-
-
-def create_session(data):
+def create_session():
     session_id = str(uuid.uuid4())
-    data.setdefault("sessions", {})[session_id] = {
-        "title": "New Chat",
-        "messages": [
-            {"role": "system", "content": "You're a helpful assistant."}
-        ]
-    }
-    save_data(data)
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO sessions (id, title) VALUES (?, ?)",
+        (session_id, "New Chat")
+    )
+
+    cursor.execute(
+        "INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)",
+        (session_id, "system", "You're a helpful assistant.")
+    )
+
+    conn.commit()
+    conn.close()
+
     return session_id
 
-def get_session(data, session_id):
-    return data["sessions"].get(session_id)
 
-def list_sessions(data):
+def list_sessions():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT id, title FROM sessions ORDER BY created_at DESC"
+    )
+
+    rows = cursor.fetchall()
+    conn.close()
+
     return [
         {
-            "session_id": sid,
-            "title": info.get("title", "Untitled")
+            "session_id": row["id"],
+            "title": row["title"]
         }
-        for sid, info in data.get("sessions", {}).items()
+        for row in rows
     ]
 
-def delete_session(data, session_id):
-    if session_id in data.get("sessions", {}):
-        del data["sessions"][session_id]
-        save_data(data)
-        return True
-    return False
 
-def update_session_title(data, session_id, title):
-    session = get_session(data, session_id)
-    if session:
-        session["title"] = title
-        save_data(data)
-        return True
-    return False
+def save_message(session_id, role, content):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO messages (session_id, role, content) VALUES (?, ?, ?)",
+        (session_id, role, content)
+    )
+
+    conn.commit()
+    conn.close()
+
+
+def get_session(session_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT id, title FROM sessions WHERE id = ?",
+        (session_id,)
+    )
+    session_row = cursor.fetchone()
+
+    #Handle case where session_id does not exist
+    if not session_row:
+        conn.close()
+        return None
+
+    cursor.execute(
+        "SELECT role, content FROM messages WHERE session_id = ? ORDER BY created_at ASC",
+        (session_id,)
+    )
+    message_rows = cursor.fetchall()
+    conn.close()
+
+    return {
+        "session_id": session_row["id"],
+        "title": session_row["title"],
+        "messages": [
+            {
+                "role": message["role"],
+                "content": message["content"]
+            }
+            for message in message_rows
+        ]
+    }
+
+
+def delete_session(session_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM messages WHERE session_id = ?",
+        (session_id,)
+    )
+    cursor.execute(
+        "DELETE FROM sessions WHERE id = ?",
+        (session_id,)
+    )
+
+    success = cursor.rowcount > 0
+    conn.commit()
+    conn.close()
+
+    return success
+
+
+def update_session_title(session_id, title):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "UPDATE sessions SET title = ? WHERE id = ?",
+        (title, session_id)
+    )
+
+    success = cursor.rowcount > 0
+    conn.commit()
+    conn.close()
+
+    return success

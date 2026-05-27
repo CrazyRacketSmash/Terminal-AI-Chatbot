@@ -124,6 +124,18 @@ export async function getAccounts() {
   );
   return res.json();
 }
+export async function createAccount(data) {
+  await fetch(
+    `${API_URL}/accounts`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
+  );
+}
 
 export async function getTransactions() {
   const res = await fetch(
@@ -132,18 +144,17 @@ export async function getTransactions() {
   return res.json();
 }
 
-export async function addTransaction(transaction) {
-  const res = await fetch(
+export async function createTransaction(data) {
+  await fetch(
     `${API_URL}/transactions`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(transaction)
+      body: JSON.stringify(data)
     }
   );
-  return res.json();
 }
 
 export async function getGoals() {
@@ -153,16 +164,15 @@ export async function getGoals() {
   return res.json();
 }
 
-export async function addGoal(goal) {
-  const res = await fetch(
+export async function createGoal(data) {
+  await fetch(
     `${API_URL}/goals`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(goal)
+      body: JSON.stringify(data)
     }
   );
-  return res.json();
 }

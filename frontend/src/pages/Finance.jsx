@@ -1,6 +1,9 @@
 import BalanceCard from "../components/finance/BalanceCard";
 import SpendingChart from "../components/finance/SpendingChart";
 import AccountsList from "../components/finance/AccountsList";
+import AddAccountModal from "../components/finance/AddAccountModal";
+import AddTransactionModal from "../components/finance/AddTransactionModal";
+import AddGoalModal from "../components/finance/AddGoalModal";
 import GoalsList from "../components/finance/GoalsList";
 import Transactions from "../components/finance/Transactions";
 import { useEffect, useState } from "react";
@@ -10,9 +13,11 @@ function Finance() {
   const [accounts, setAccounts] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [goals, setGoals] = useState([]);
+  const [accountModalOpen, setAccountModalOpen] = useState(false);
+  const [transactionModalOpen, setTransactionModalOpen] = useState(false);
+  const [goalModalOpen, setGoalModalOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchFinanceData = async () => {
+  const loadData = async () => {
       const accountsData = await getAccounts();
       const transactionsData = await getTransactions();
       const goalsData = await getGoals();
@@ -20,9 +25,13 @@ function Finance() {
       setAccounts(accountsData);
       setTransactions(transactionsData);
       setGoals(goalsData);
-    };
+};
 
-    fetchFinanceData();
+  useEffect(() => {
+    const init = async () => {
+      await loadData();
+    };
+    init();
   }, []);
 
   // analytics
@@ -86,16 +95,40 @@ function Finance() {
         grid-cols-2
         gap-6
       ">
+        <AccountsList
+          accounts={accounts}
+          onAdd={() => setAccountModalOpen(true)}
+        />
 
-        <AccountsList accounts={accounts} />
-
-        <GoalsList goals={goals} />
-
+        <GoalsList
+          goals={goals}
+          onAdd={() => setGoalModalOpen(true)}
+        />
       </div>
 
       {/* Transactions */}
-      <Transactions transactions={transactions} />
+      <Transactions
+        transactions={transactions}
+        onAdd={() => setTransactionModalOpen(true)}
+      />
 
+      {/* Modals */}
+      <AddAccountModal
+        open={accountModalOpen}
+        onClose={() => setAccountModalOpen(false)}
+        refresh={loadData}
+      />
+      <AddTransactionModal
+        open={transactionModalOpen}
+        onClose={() => setTransactionModalOpen(false)}
+        refresh={loadData}
+        accounts={accounts}
+      />
+      <AddGoalModal
+        open={goalModalOpen}
+        onClose={() => setGoalModalOpen(false)}
+        refresh={loadData}
+      />
     </div>
   );
 }

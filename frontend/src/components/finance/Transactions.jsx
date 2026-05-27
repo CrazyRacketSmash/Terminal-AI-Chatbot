@@ -1,4 +1,4 @@
-function Transactions({ transactions = [] }) {
+function Transactions({ transactions = [], onAdd }) {
 
   return (
     <div className="
@@ -7,13 +7,17 @@ function Transactions({ transactions = [] }) {
       p-6
     ">
 
-      <h2 className="
-        text-xl
-        font-semibold
-        mb-6
-      ">
-        Recent Transactions
-      </h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold">Recent Transactions</h2>
+        {onAdd && (
+          <button
+            onClick={onAdd}
+            className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500"
+          >
+            Add Transaction
+          </button>
+        )}
+      </div>
 
       <div className="space-y-4">
 

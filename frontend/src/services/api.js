@@ -51,7 +51,7 @@ export async function streamMessage(message, session_id = null, onToken = null) 
             } else if (obj.done) {
               // stream finished marker
             }
-          } catch (e) {
+          } catch {
             // not JSON — treat as raw text
             fullResponse += dataStr;
             if (onToken) onToken(dataStr);
@@ -73,7 +73,7 @@ export async function streamMessage(message, session_id = null, onToken = null) 
             fullResponse += obj.token;
             if (onToken) onToken(obj.token);
           }
-        } catch (e) {
+        } catch {
           fullResponse += dataStr;
           if (onToken) onToken(dataStr);
         }

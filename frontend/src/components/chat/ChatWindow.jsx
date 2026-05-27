@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
 
-function ChatWindow({ messages, setMessages, sessionId, setSessionId }) {
-
+function ChatWindow({ messages = [], setMessages, sessionId, setSessionId }) {
+  const safeMessages = messages ?? [];
   const bottomRef = useRef(null);
 
   // auto-scroll whenever messages change
@@ -17,7 +17,7 @@ function ChatWindow({ messages, setMessages, sessionId, setSessionId }) {
     <div className="flex flex-col flex-1">
 
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
-        {messages.map((msg, index) => (
+        {safeMessages.map((msg, index) => (
           <MessageBubble key={index} message={msg} />
         ))}
         {/* invisible anchor */}

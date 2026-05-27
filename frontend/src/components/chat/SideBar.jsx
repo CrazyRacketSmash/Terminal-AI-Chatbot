@@ -1,4 +1,4 @@
-import { createSession, getSessionMessages, getSessions, deleteSession } from "../services/api";
+import { createSession, getSessionMessages, getSessions, deleteSession } from "../../services/api";
 
 function Sidebar({
   sessions,

@@ -219,3 +219,5 @@ __marimo__/
 
 #database file
 chatbot.db
+
+node_modules/

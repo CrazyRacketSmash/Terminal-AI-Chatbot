@@ -13,6 +13,16 @@ from fastapi.responses import StreamingResponse
 from llm import stream_llm
 from database import init_db
 import json
+from finance import (
+    get_accounts,
+    create_account,
+
+    get_transactions,
+    create_transaction,
+
+    get_goals,
+    create_goal
+)
 
 # Logics
 init_db()
@@ -31,6 +41,25 @@ app.add_middleware(
 class ChatRequest(BaseModel):
     session_id: str | None = None
     message: str
+
+# =========================
+# FINANCE
+# =========================
+class AccountRequest(BaseModel):
+    name: str
+    type: str
+    balance: float
+
+class TransactionRequest(BaseModel):
+    account_id: int
+    description: str
+    category: str
+    amount: float
+
+class GoalRequest(BaseModel):
+    title: str
+    current: float
+    target: float
 
 # Home Endpoint
 @app.get("/")
@@ -123,3 +152,61 @@ def chat_stream(req: ChatRequest):
         generate(),
         media_type="text/event-stream"
     )
+
+# =========================
+# ACCOUNTS
+# =========================
+@app.get("/accounts")
+def accounts():
+    return get_accounts()
+
+@app.post("/accounts")
+def add_account(req: AccountRequest):
+    create_account(
+        req.name,
+        req.type,
+        req.balance
+    )
+
+    return {
+        "success": True
+    }
+
+# =========================
+# TRANSACTIONS
+# =========================
+@app.get("/transactions")
+def transactions():
+    return get_transactions()
+
+@app.post("/transactions")
+def add_transaction(req: TransactionRequest):
+    create_transaction(
+        req.account_id,
+        req.description,
+        req.category,
+        req.amount
+    )
+
+    return {
+        "success": True
+    }
+
+# =========================
+# GOALS
+# =========================
+@app.get("/goals")
+def goals():
+    return get_goals()
+
+@app.post("/goals")
+def add_goal(req: GoalRequest):
+    create_goal(
+        req.title,
+        req.current,
+        req.target
+    )
+
+    return {
+        "success": True
+    }

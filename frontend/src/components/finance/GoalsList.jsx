@@ -1,17 +1,4 @@
-const goals = [
-  {
-    title: "Emergency Fund",
-    current: 4000,
-    target: 10000
-  },
-  {
-    title: "Vacation",
-    current: 1200,
-    target: 3000
-  }
-];
-
-function GoalsList() {
+function GoalsList({ goals = [] }) {
 
   return (
     <div className="

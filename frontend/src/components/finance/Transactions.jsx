@@ -1,22 +1,4 @@
-const transactions = [
-  {
-    description: "Starbucks",
-    category: "Food",
-    amount: -12
-  },
-  {
-    description: "Paycheck",
-    category: "Income",
-    amount: 1200
-  },
-  {
-    description: "Amazon",
-    category: "Shopping",
-    amount: -58
-  }
-];
-
-function Transactions() {
+function Transactions({ transactions = [] }) {
 
   return (
     <div className="

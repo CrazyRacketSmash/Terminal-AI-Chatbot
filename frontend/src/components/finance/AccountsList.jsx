@@ -1,22 +1,4 @@
-const accounts = [
-  {
-    name: "Chase Debit",
-    type: "Checking",
-    balance: 4200
-  },
-  {
-    name: "Discover Credit",
-    type: "Credit",
-    balance: -320
-  },
-  {
-    name: "Roth IRA",
-    type: "Investment",
-    balance: 8200
-  }
-];
-
-function AccountsList() {
+function AccountsList({ accounts = [] }) {
 
   return (
     <div className="

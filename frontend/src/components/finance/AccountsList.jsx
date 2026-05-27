@@ -1,4 +1,4 @@
-function AccountsList({ accounts = [] }) {
+function AccountsList({ accounts = [], onAdd }) {
 
   return (
     <div className="
@@ -7,13 +7,17 @@ function AccountsList({ accounts = [] }) {
       p-6
     ">
 
-      <h2 className="
-        text-xl
-        font-semibold
-        mb-6
-      ">
-        Accounts
-      </h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold">Accounts</h2>
+        {onAdd && (
+          <button
+            onClick={onAdd}
+            className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500"
+          >
+            Add Account
+          </button>
+        )}
+      </div>
 
       <div className="space-y-4">
 

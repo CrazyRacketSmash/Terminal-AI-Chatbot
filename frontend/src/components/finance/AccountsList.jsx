@@ -1,22 +1,22 @@
-const transactions = [
+const accounts = [
   {
-    description: "Starbucks",
-    category: "Food",
-    amount: -12
+    name: "Chase Debit",
+    type: "Checking",
+    balance: 4200
   },
   {
-    description: "Paycheck",
-    category: "Income",
-    amount: 1200
+    name: "Discover Credit",
+    type: "Credit",
+    balance: -320
   },
   {
-    description: "Amazon",
-    category: "Shopping",
-    amount: -58
+    name: "Roth IRA",
+    type: "Investment",
+    balance: 8200
   }
 ];
 
-function Transactions() {
+function AccountsList() {
 
   return (
     <div className="
@@ -30,18 +30,19 @@ function Transactions() {
         font-semibold
         mb-6
       ">
-        Recent Transactions
+        Accounts
       </h2>
 
       <div className="space-y-4">
 
-        {transactions.map((tx, i) => (
+        {accounts.map((account, i) => (
 
           <div
             key={i}
             className="
               flex
               justify-between
+              items-center
               border-b
               border-zinc-700
               pb-3
@@ -49,20 +50,20 @@ function Transactions() {
           >
 
             <div>
-
-              <p>{tx.description}</p>
+              <p className="font-medium">
+                {account.name}
+              </p>
 
               <p className="
                 text-sm
                 text-zinc-400
               ">
-                {tx.category}
+                {account.type}
               </p>
-
             </div>
 
             <p className="font-bold">
-              ${tx.amount}
+              ${account.balance}
             </p>
 
           </div>
@@ -75,4 +76,4 @@ function Transactions() {
   );
 }
 
-export default Transactions;
+export default AccountsList;

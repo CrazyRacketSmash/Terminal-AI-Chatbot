@@ -68,7 +68,7 @@ function FloatingAI({
           </div>
 
           <div className="flex flex-1 overflow-hidden">
-            <div className="w-64 border-r border-zinc-800 bg-zinc-950 overflow-y-scroll overflow-x-hidden">
+            <div className="w-64 border-r border-zinc-800 bg-zinc-950 overflow-y-auto overflow-x-hidden">
               <ChatSidebar
                 sessions={sessions}
                 setSessions={setSessions}

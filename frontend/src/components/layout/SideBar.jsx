@@ -13,7 +13,7 @@ function Sidebar() {
     <div className="w-64 border-r border-zinc-800 p-4">
 
       <h1 className="text-2xl font-bold mb-8">
-        Leo Dashboard
+        LionFin
       </h1>
 
       <div className="space-y-2">

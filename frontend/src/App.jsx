@@ -1,6 +1,11 @@
+import { Routes, Route } from "react-router-dom";
+
 import { useState, useEffect } from 'react';
-import Sidebar from "./components/SideBar";
-import ChatWindow from "./components/ChatWindow";
+
+import Sidebar from "./components/layout/SideBar";
+import FloatingAI from "./components/chat/FloatingAI";
+import Dashboard from "./pages/Dashboard";
+import Finance from "./pages/Finance";
 import { getSessions } from "./services/api";
 
 function App() {
@@ -30,19 +35,24 @@ function App() {
 
   return (
     <div className="flex h-screen bg-zinc-900 text-white">
-      <Sidebar
-        sessions={sessions}
-        setSessions={setSessions}
-        sessionId={sessionId}
-        setSessionId={setSessionId}
-        setMessages={setMessages}
-      />
-      <ChatWindow 
+      <Sidebar />
+
+      <FloatingAI
         messages={messages}
         setMessages={setMessages}
         sessionId={sessionId}
         setSessionId={setSessionId}
+        sessions={sessions}
+        setSessions={setSessions}
       />
+
+      <main className="flex-1 overflow-y-auto">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/finance" element={<Finance />} />
+        </Routes>
+      </main>
+
     </div>
   );
 }

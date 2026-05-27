@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { streamMessage } from "../services/api";
+import { streamMessage } from "../.././services/api";
 
-function ChatInput({ messages, setMessages, sessionId, setSessionId }) {
+function ChatInput({ setMessages, sessionId, setSessionId }) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 

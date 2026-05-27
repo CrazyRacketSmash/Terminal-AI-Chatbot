@@ -33,5 +33,37 @@ def init_db():
     )
     """)
 
+    # accounts table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS accounts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        type TEXT,
+        balance REAL
+    )
+    """)
+
+    # Transactions table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS transactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        account_id INTEGER,
+        description TEXT,
+        category TEXT,
+        amount REAL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+    
+    # Goals table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS goals (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT,
+        current REAL,
+        target REAL
+    )
+    """)
+
     conn.commit()
     conn.close()

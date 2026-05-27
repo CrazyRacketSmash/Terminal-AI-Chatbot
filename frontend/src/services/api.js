@@ -116,3 +116,53 @@ export async function deleteSession(sessionId) {
   );
   return res.json();
 }
+
+// Finance API calls
+export async function getAccounts() {
+  const res = await fetch(
+    `${API_URL}/accounts`
+  );
+  return res.json();
+}
+
+export async function getTransactions() {
+  const res = await fetch(
+    `${API_URL}/transactions`
+  );
+  return res.json();
+}
+
+export async function addTransaction(transaction) {
+  const res = await fetch(
+    `${API_URL}/transactions`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(transaction)
+    }
+  );
+  return res.json();
+}
+
+export async function getGoals() {
+  const res = await fetch(
+    `${API_URL}/goals`
+  );
+  return res.json();
+}
+
+export async function addGoal(goal) {
+  const res = await fetch(
+    `${API_URL}/goals`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(goal)
+    }
+  );
+  return res.json();
+}

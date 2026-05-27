@@ -7,15 +7,7 @@ import {
     ResponsiveContainer
 } from "recharts";
 
-const data = [
-    { month: "Jan", spending: 1200 },
-    { month: "Feb", spending: 1800 },
-    { month: "Mar", spending: 1500 },
-    { month: "Apr", spending: 2200 },
-    { month: "May", spending: 1700 },
-];
-
-function SpendingChart() {
+function SpendingChart({ data = [] }) {
 
     return (
         <div className="
